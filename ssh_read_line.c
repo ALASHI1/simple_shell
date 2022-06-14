@@ -1,5 +1,5 @@
 #include "shell.h"
-
+#include "util.h"
 /**
  *  ssh_read_line - reads characters from the standard input
  *  stream.
