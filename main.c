@@ -7,8 +7,8 @@
  */
 int main(void)
 {
-	signal(SIGINT, handl_signint);
-	repl();
+	signal(SIGINT, ssh_handl_signint);
+	ssh_repl();
 
 	return (0);
 }
