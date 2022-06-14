@@ -2,8 +2,10 @@
 
 /**
  * ssh_repl - Read-Eval-Print-Loop for the shell
+ * 
+ * @shell: shell data
  */
-void ssh_repl(void)
+void ssh_repl(shell_t *shell)
 {
 	char *cmd;
 	int chr;
@@ -21,6 +23,8 @@ void ssh_repl(void)
 
 		if (cmd == NULL)
 			continue;
+
+        parse_command(shell, cmd);
 
 		free(cmd);
 	} while (1);
