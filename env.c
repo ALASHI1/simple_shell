@@ -46,72 +46,22 @@ char *_getenv(char **_environ, const char *name)
 }
 
 /**
- * makeenv - create an environment variable
- *
- * @var: variable name
- * @val: variable value
- * Return: the env variable if found otherwise NULL
- */
-char *makeenv(char *var, char *val)
-{
-	size_t len_var, len_val;
-	char *env;
-
-	len_var = _strlen(var);
-	len_val = _strlen(val);
-	env = malloc(sizeof(char) * (len_val + len_var + 2));
-	if (!env)
-		return (NULL);
-	_strcpy(env, var);
-	_strcat(env, "=");
-	_strcat(env, val);
-	_strcat(env, "\0");
-
-	return (env);
-}
-
-/**
- * _setenv - change or add an environment variable
+ * hsh_env - prints env variables
  *
  * @shell: shell data
- * @name: variable name
- * @value: variable value
- * @overwrite: 0 to avoid change otherwise any other integer
- * Return: the env variable if found otherwise NULL
+ * Return: 0 for success otherwise another integer
  */
-int _setenv(shell_t *shell, char *name, char *value, int overwrite)
+int hsh_env(shell_t *shell)
 {
-	unsigned int i;
-	char *envv, *var_env, *val_env, *backup, *newenv;
+	int i = 0, len;
 
-	for (i = 0; shell->environ[i]; i++)
+	/* Todo -> print envs */
+	while (shell->environ[i] != NULL)
 	{
-		envv = _strdup(shell->environ[i]);
-		var_env = strtok(envv, "=");
-		if (_strcmp(var_env, name) == 0)
-		{
-			if (overwrite == 0)
-				return (0);
-			backup = _strdup(shell->environ[i]);
-			free(shell->environ[i]);
-			newenv = makeenv(name, value);
-			if (!newenv)
-			{
-				free(envv);
-				shell->environ[i] = backup;
-				return (-1); /* TODO => Set errno */
-			}
-			shell->environ[i] = newenv;
-			free(envv);
-			free(backup);
-			return (0);
-		}
-		free(envv);
+		len = _strlen(shell->environ[i]);
+		write(STDOUT_FILENO, shell->environ[i], len + 1);
+		write(STDOUT_FILENO, "\n", 2);
+		i++;
 	}
-
-	shell->environ = _realloc2(shell->environ, i, sizeof(char *) * (i + 2));
-	shell->environ[i] = makeenv(name, value);
-	shell->environ[i + 1] = NULL;
-
 	return (0);
 }
