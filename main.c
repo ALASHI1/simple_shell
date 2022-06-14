@@ -10,7 +10,6 @@ int main(void)
 
 	initialize(&shell);
 	signal(SIGINT, ssh_handl_signint);
-	ssh_repl();
 	ssh_repl(&shell);
 	uninitialize(&shell);
 
